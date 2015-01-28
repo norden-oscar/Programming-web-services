@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<Degree>
+    <University  name="Derp University" address="Derproad 22"></University>
+    <personalInfo>
+        <firsName = "Jon"></firsName>
+        <lastName = "Smith"></lastName>
+        <personalNumber = 890428-2436></personalNumber>
+    </personalInfo>
+
+    <program name="Information and communication">
+        <course name="java1" grade="A"></course>
+        <course name="java2" grade="B"></course>
+        <course name="neworking basics"grade="D"></course>
+        <course name="networking advanced"grade="E"></course>
+        <course name="object oriented programming"grade="E"></course>
+        <course name="Digital design"grade="E"></course>
+        <course name="Distributed systems"grade="C"></course>
+        <course name="Human computer interaction" grade="D" ></course>
+    </program>
+    
+</Degree>
