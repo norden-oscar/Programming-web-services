@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Application>
+
+	<Person firstName="Oscar" lastName="Nordén" id="890606-1234" />
+	<Reference firstName="Stefan" lastName="Josefsson" phone="070123456">
+		<Reference firstName="Erik" lastName="Svensson" phone="0704343434">
+			<CV>
+				This is an outstanding CV
+			</CV>
+			<MotivationLetter>
+				I'm a nice person. Hence you should hire me.
+			</MotivationLetter>
+			<Requirement>
+				<Companies>
+					<Company name="McDonalds" />
+					<Company name="Ericsson" />
+				</Companies>
+				<Contract type = "Part time"/>
+				<Contract type = "Full time"/>
+				<Field name = "it"/>
+				<Field name = "Economy"/>
+			</Requirement>	
+</Application>

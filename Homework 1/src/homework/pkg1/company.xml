@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Companies>
+	<Company name="Ericsson" founded="1877">
+		<City name="Stockholm">
+			<Office streetAddress="Kistavägen" streetNumber="22" workers="5">
+				<Reports>
+					<Report type="financial" year="1999">
+						This year we sold for phones
+						for 50000 kr
+					</Report>
+					<Report type="financial" year="2000">
+						This year we sold phones for
+						60000 kr
+					</Report>
+					<Report type="growth" year="1999">
+						We expect an increase in sale
+					</Report>
+					<Report type="growth" year="2000">
+						We expect a decrease in sale
+					</Report>
+				</Reports>
+			</Office>
+			<Office streetAddress="Drottninggatan" streetNumber="33">
+
+				<Reports>
+					<Report type="financial" year="1999">
+						This year we sold for phones
+						for 20000 kr
+					</Report>
+					<Report type="financial" year="2000">
+						This year we sold phones for
+						40000 kr
+					</Report>
+					<Report type="growth" year="1999">
+						We expect an increase in sale
+					</Report>
+					<Report type="growth" year="2000">
+						We expect an increase in sale
+					</Report>
+				</Reports>
+			</Office>
+		</City>
+	</Company>
+	<Company name="Mcdonalds" founded="1877">
+		<City name="Lund">
+			<Office streetAddress="Storgatan" streetNumber="33">
+				<Reports>
+					<Report type="financial" year="1992">
+						This year we sold for burgers
+						for 50000 kr
+					</Report>
+					<Report type="financial" year="2000">
+						This year we sold burgers for
+						60000 kr
+					</Report>
+					<Report type="growth" year="1992">
+						We expect an increase in sale
+					</Report>
+					<Report type="growth" year="2003">
+						We expect a decrease in sale
+					</Report>
+				</Reports>
+
+			</Office>
+		</City>
+		<City name="Stockholm">
+			<Office streetAddress="Regeringsgatan" streetNumber="322">
+				<Reports>
+					<Report type="financial" year="1996">
+						This year we sold for burgers
+						for 20 000 kr
+					</Report>
+					<Report type="financial" year="2002">
+						This year we sold burgers for
+						52500 kr
+					</Report>
+						<Report type="growth" year="1993">
+							We expect an increase in sale
+						</Report>
+						<Report type="growth" year="2006">
+							We expect a decrease in sale
+						</Report>
+					</Reports>
+
+			</Office>
+		</City>
+	</Company>
+	<Company name="Max" founded="1958">
+		<City name="Malmö">
+			<Office streetAddress="Adelsgatan" streetNumber="4">
+				<Reports>
+					<Report type="financial" year="1995">
+						This year we sold for burgers
+						for 30 000 kr
+					</Report>
+					<Report type="financial" year="2004">
+						This year we sold burgers for
+						64 000 kr
+					</Report>
+					<Report type="growth" year="1996">
+						We expect an increase in sale
+					</Report>
+					<Report type="growth" year="2005">
+						We expect a decrease in sale
+					</Report>
+				</Reports>
+
+			</Office>
+
+
+		</City>
+
+	</Company>
+</Companies>
