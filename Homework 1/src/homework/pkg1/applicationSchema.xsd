@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.w3schools.com"
+           elementFormDefault="qualified">
+    <xs:element name ="Application">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name = "Person" >
+                    <xs:complexType>
+                        <xs:attribute name ="firstName" type ="xs:string"/>
+                        <xs:attribute name ="lastName" type ="xs:string"/>
+                        <xs:attribute name ="id">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string" >
+                                    <xs:length value="10"/>     
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>          
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name = "Reference" maxOccurs="unbounded" >
+                    <xs:complexType>
+                        <xs:attribute name ="firstName" type ="xs:string" use="required"/>
+                        <xs:attribute name ="lastName" type ="xs:string" use="required"/>
+                        <xs:attribute name ="phone" type ="xs:integer" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name ="CV" type="xs:string"/>
+                <xs:element name ="MotivationLetter" type="xs:string"/>
+                <xs:element name="Requirement">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name = "Companies" >
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Company" maxOccurs="unbounded" >
+                                            <xs:complexType>
+                                                <xs:attribute name ="name" type ="xs:string"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name ="Contract" maxOccurs = "unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name = "contractType" type = "xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name ="Field" maxOccurs = "unbounded">
+                                <xs:complexType>
+                                    <xs:attribute  name = "name" type = "xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>              
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+                
+            
+
+</xs:schema>

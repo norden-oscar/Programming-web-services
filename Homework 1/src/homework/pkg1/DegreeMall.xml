@@ -7,8 +7,8 @@ and open the template in the editor.
 
 
 <Degree xmlns="http://www.w3schools.com"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.w3schools.com DegreeSchema.xsd">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.w3schools.com DegreeSchema.xsd">
     <University  name="Derp University" address="Derproad 22"></University>
     <personalInfo>
         <firstName>Jon</firstName>
