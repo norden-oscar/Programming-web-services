@@ -7,12 +7,10 @@
 			<Office streetAddress="Kistavägen" streetNumber="22" workers="5">
 				<Reports>
 					<Report type="financial" year="1999">
-						This year we sold for phones
-						for 50000 kr
+						This year we sold for phones for 50000kr
 					</Report>
 					<Report type="financial" year="2000">
-						This year we sold phones for
-						60000 kr
+						This year we sold phones for 60000 kr
 					</Report>
 					<Report type="growth" year="1999">
 						We expect an increase in sale
