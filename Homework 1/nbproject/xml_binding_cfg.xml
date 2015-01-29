@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<schemas xmlns='http://xml.netbeans.org/schema/JAXBWizConfig' destdir='build/generated-sources/jaxb' projectName='Homework_1' version='1.0'>
+	<schema type='-xmlschema' package='' name='Degree'>
+		<xjc-options>
+			<xjc-option name='-nv' value='true'/>
+		</xjc-options>
+		<schema-sources>
+			<schema-source location='xml-resources/jaxb/Degree/DegreeSchema.xsd' origLocation='src/homework/pkg1/DegreeSchema.xsd'/>
+		</schema-sources>
+		<bindings>
+		</bindings>
+		<catalog/>
+	</schema>
+</schemas>

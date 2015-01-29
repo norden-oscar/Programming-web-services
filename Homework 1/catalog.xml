@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/norde_000/Documents/Programmering/Programming-web-services/Homework%201/src/homework/pkg1/DegreeSchema.xsd" uri="xml-resources/jaxb/Degree/DegreeSchema.xsd"/>
+</catalog>
