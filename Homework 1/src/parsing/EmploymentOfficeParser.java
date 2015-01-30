@@ -26,6 +26,7 @@ public class EmploymentOfficeParser {
        
         
         try {
+            // Måste fixa så parsern är validating
              SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             saxParserFactory.setNamespaceAware(true);
             
