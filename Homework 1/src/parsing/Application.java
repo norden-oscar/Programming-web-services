@@ -1,186 +1,183 @@
-package homework.pkg1;
+package parsing;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import oracle.jrockit.jfr.tools.ConCatRepository;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
+import org.xml.sax.helpers.DefaultHandler;
 
 
 public class Application {
-
+	//private Skola s;
+	//private Person lastPerson;
+	
+	//Contain list of companies that will be created during parsing.
+	private List<Company> companyCollection = new ArrayList<Company>();
+	private final String xmlFile = "src/homework/pkg1/company.xml";
+	private final String xsdFile = "src/homework/pkg1/company.xsd";
+	//dom for xml file
+	private Document doc;
+	
 	public static void main(String args []) {
 		new Application();
+
+
+
+
 	}
+
 	public Application() {
-		parseCompany();
-
+		//DOM company.xml
+		initiateDOM(xmlFile);
+		parseDOM();
+		//SAX
+		initiateSAX(xmlFile);
+		//
 	}
-	private void parseCompany(){
-
-
-
-		//Relative path
-		final String xmlPath = "./src/homework/pkg1/company.xml";
-		final String xsdPath = "./src/homework/pkg1/company.xsd";
+	private void initiateDOM(String path){
 		
-		  //Get a factory object for DocumentBuilder objects
-	      DocumentBuilderFactory factory =
-	            DocumentBuilderFactory.newInstance();
 
-	      
-	      // to make the parser a validating parse
-	      factory.setValidating(true);
-	      //To parse a XML document with a namespace,
-	      factory.setNamespaceAware(true);
-	      
-	      // to ignore cosmetic whitespace between elements.
-	      factory.setIgnoringElementContentWhitespace(true);
-	      factory.setAttribute(
-	    		    "http://java.sun.com/xml/jaxp/properties/schemaLanguage",
-	    		    "http://www.w3.org/2001/XMLSchema");
-	      //specifies the XML schema document to be used for validation.
-	      factory.setAttribute(
-	    		    "http://java.sun.com/xml/jaxp/properties/schemaSource",
-	    		    "company.xsd");
-	    	
-	      //Get a DocumentBuilder (parser) object
-	      	      
-	      DocumentBuilder builder=null;
-		try {
-			builder = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+		try{
+			SchemaFactory schemaFactory =
+					SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema schema = schemaFactory.newSchema(new File(xsdFile));
+			Validator valdiator = schema.newValidator();
+			
+			Source xmlSource = new StreamSource(new File(xmlFile));
+			valdiator.validate(xmlSource);
+			
+			//initiate DocumentFactory for further use...
+			DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+
+			//Create a documentBuilder from documentFactory
+			//DocumentBuilder provides the api to get a dom from xml file
+			DocumentBuilder docBuilder;
+			docBuilder = documentFactory.newDocumentBuilder();
+
+			//Document represents the entire xml (or html) document. Root of document tree
+			//and provides access to its nodes
+			doc = docBuilder.parse(path);
+			
+		} catch(ParserConfigurationException e){
+			e.printStackTrace();
+		} catch(IOException e){
+			e.printStackTrace();
+		} catch(SAXException e) {
 			e.printStackTrace();
 		}
-
-	      //Parse the XML input file to create a
-	      // Document object that represents the
-	      // input XML file.
-	      ///
-		Document document= null;
-	      try {
-			document = builder.parse(
-			                          new File(xmlPath));
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	      processNode(document);
-	     
-
-
 	}
-	 void processCompanies(Node root)
-	 {
-		 try
-		 {			 
-			 if(root.getNodeName().equals("companies"))
-			 {				 
-				 							
-				 String student_name = getNodeValue(root.getChildNodes(), "");							 							 
-				 String univ_name= getNodeValue(root.getChildNodes(), "university");
-				 String degree = getNodeValue(root.getChildNodes(), "degree");							 							 
-				 String year= getNodeValue(root.getChildNodes(), "year");
-				 NodeList courseList = root.getChildNodes();
-				 String[] courses = new String[courseList.getLength()];
-				 
-				 for(int i=0; i<courseList.getLength(); i++)
-				 {
-					 courses[i] = courseList.item(0).getNodeValue();
-				 }
-				 System.out.print(student_name + ", " + univ_name + " , " + degree + ", " + year + " ,");
-			 }						 
-		 }
-		 catch(Exception e)
-		 {
-			 e.printStackTrace(System.err);
-	     }
-	 }
-	 
-	 Node findNode(NodeList nodes, String nodeName)
-	 {
-		 for(int i=0; i<nodes.getLength(); i++)
-		 {
-			 if(nodes.item(i).getNodeName().equals(nodeName))
-			 {
-				 return nodes.item(i);
-			 }
-		 }
-		 return null;
-	 }
-	 
-	 String getNodeValue(NodeList nodes, String nodeName)
-	 {
-		 Node result = findNode(nodes, nodeName);
-		 if(result != null)
-		 {
-			 return result.getFirstChild().getNodeValue();
-		 }
-		 return null;
-	 }
-	 
-	 void processNode(Node root)
-	 {
+	
+	private void initiateSAX(String path){
+		//Initiate SAXParserFactory for further use...
+		//jaxp == java api for processing xml
+		//Vi har två alternativ verkar det som... Köra på XMLReaderFactory eller SAXParserFactory?
+	
+		try{
+			
+		
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		
+		SAXParser saxParser = factory.newSAXParser();
+		
+		
+		DefaultHandler handler = new DefaultHandler() {
+			@Override
+			public void startElement(String uri, String localName,
+					String qName, Attributes attributes) throws SAXException {
+					//if not root elem
+					
+					if(qName.equalsIgnoreCase("Person")){
+						//lastPerson = new Person();
+						//s.addPerson(lastPerson);
+					}
+					if(qName.equalsIgnoreCase("Betyg")){
+						
+					}
+					
+			}
+			
+			@Override
+			public void startDocument() throws SAXException {
+			//	s = new Skola();
+				//super.startDocument();
+			}
+		};
+		
+		
+		saxParser.parse(path, handler);
+		} catch(SAXException e){
+			e.printStackTrace();
+		} catch(IOException e){
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+		
+			e.printStackTrace();
+			
+		}
+		
+	}
+	
+	public void parseDOM(){
 
-	    try{
-	      if (root == null){
-	        System.err.println("Node is null !!!");
-	        return;
-	      }
+		try {
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			XPathExpression expr;
+			String expression = "//Company/@name";
+			expr = xPath.compile(expression);
+			NodeList n1= (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+			for(int i = 0; i< n1.getLength(); i++){
+				String companyName = n1.item(i).getNodeValue();
+				expression = "//Company[@name = '" + companyName + "']/City/@name";
+				String city = xPath.compile(expression).evaluate(doc);
+				System.out.println(city);
+				expression = "//Company[@name = '" + companyName + "']/City/Office";
+				NodeList n2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+				
+				for(int j = 0; j<n2.getLength(); j++) {
+					String streetAddress = 
+							n2.item(j).getAttributes().getNamedItem("streetAddress").getNodeValue();
+					String streetNumber = 
+							n2.item(j).getAttributes().getNamedItem("streetNumber").getNodeValue();
+					String workerCount = 
+							n2.item(j).getAttributes().getNamedItem("workers").getNodeValue();
+					System.out.println(streetAddress);
+					System.out.println(streetNumber);
+					System.out.println(workerCount);
+					
+				}
+			}
+			
+			
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	      int type = root.getNodeType();
-	      
-	      switch (type){
-	        case Node.TEXT_NODE:{
-	            System.out.print("Text Node: <" +  root.getNodeValue() +  ">\n");
-	          
-	          break;
-	        }//end case Node.TEXT_NODE
-
-	        case Node.ATTRIBUTE_NODE:{
-	        	System.out.print("Attribute Node: <" + root.getNodeName() + " = " +  root.getNodeValue() + " >\n");
-	        	break;
-	        }
-
-	        case Node.ELEMENT_NODE:{
-	        	NodeList children = root.getChildNodes();
-	        	System.out.print("Element Node: <" + root.getNodeName() +"> has "+ children.getLength()+" child elements.\n");	        		          
-	            for (Node child = root.getFirstChild();   child != null;   child = child.getNextSibling())
-	            	processNode(child);
-	          break;
-	        }//end case ELEMENT_NODE
-
-	        case Node.DOCUMENT_NODE:{
-	        	NodeList children = root.getChildNodes();
-	        	System.out.print("Document Node: <" + root.getNodeName() + "> has "+children.getLength()+" child elements.\n");	        		 
-	            
-	            for (Node child = root.getFirstChild();   child != null;   child = child.getNextSibling())
-	            	processNode(child);
-                        
-	          break;
-	        }//end case DOCUMENT_NODE
-
-	        // there are even more cases to check
-	        default:{
-
-	        }//end default
-
-	      }//end switch
-
-	    }catch(Exception e){
-	      e.printStackTrace(System.err);
-	    }//end catch
-  }
-
+	} 
 }
