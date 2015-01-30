@@ -22,11 +22,10 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import oracle.jrockit.jfr.tools.ConCatRepository;
+
 
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -56,6 +55,14 @@ public class Application {
 		//DOM company.xml
 		initiateDOM(xmlFile);
 		parseDOM();
+		for(Company c: companyCollection){
+			System.out.println("Name: " +  c.getName());
+			for(Office o: c.getOfficeList()){
+				System.out.println("Address: " + o.getStreetAddress());
+				System.out.println("StreetNumber: " + o.getStreetNumber());
+				System.out.println("workers: " + o.getWorkerCount());
+			}
+		}
 		//SAX
 		initiateSAX(xmlFile);
 		//
@@ -144,7 +151,13 @@ public class Application {
 	}
 	
 	public void parseDOM(){
-
+		
+		String companyName;
+		String city;
+		String streetAddress;
+		String streetNumber;
+		String workerCount;
+		
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			XPathExpression expr;
@@ -152,25 +165,24 @@ public class Application {
 			expr = xPath.compile(expression);
 			NodeList n1= (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for(int i = 0; i< n1.getLength(); i++){
-				String companyName = n1.item(i).getNodeValue();
+				companyName = n1.item(i).getNodeValue();
 				expression = "//Company[@name = '" + companyName + "']/City/@name";
-				String city = xPath.compile(expression).evaluate(doc);
-				System.out.println(city);
+				city = xPath.compile(expression).evaluate(doc);
+	
 				expression = "//Company[@name = '" + companyName + "']/City/Office";
 				NodeList n2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 				
+				ArrayList <Office> officeList = new ArrayList<Office>();
 				for(int j = 0; j<n2.getLength(); j++) {
-					String streetAddress = 
+					streetAddress = 
 							n2.item(j).getAttributes().getNamedItem("streetAddress").getNodeValue();
-					String streetNumber = 
+					streetNumber = 
 							n2.item(j).getAttributes().getNamedItem("streetNumber").getNodeValue();
-					String workerCount = 
+					workerCount = 
 							n2.item(j).getAttributes().getNamedItem("workers").getNodeValue();
-					System.out.println(streetAddress);
-					System.out.println(streetNumber);
-					System.out.println(workerCount);
-					
+					officeList.add(new Office(streetAddress, streetNumber, workerCount));
 				}
+				companyCollection.add(new Company(companyName, officeList));
 			}
 			
 			
