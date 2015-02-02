@@ -28,26 +28,16 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import resultJaxRes.ProfileType;
+import applicationJaxbRes.Application.Person;
+import applicationJaxbRes.Application.Requirement.Companies;
+import resultJaxRes.ApplicationType.Reference;
+import resultJaxRes.Profile;
 import companyJaxRes.Company;
 import companyJaxRes.Office;
 
@@ -72,7 +62,7 @@ public class Application {
 	private Document doc;
 	private String personId;
 	private applicationJaxbRes.Application applicationRoot;
-	private final ProfileType resultRoot = new ProfileType();
+	private final Profile resultRoot = new Profile();
 	Marshaller jaxbMarshaller;
 	public static void main(String args []) {
 		new Application();
@@ -95,10 +85,8 @@ public class Application {
 	private void writeOutput(){
 		
 		try{
-
-
 			File file = new File(xmlResultPath);
-			JAXBContext jaxbContext = JAXBContext.newInstance(ProfileType.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(Profile.class);
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(resultRoot, file);
@@ -111,8 +99,6 @@ public class Application {
 	private void initiateApplicationJAXB() {
 		File file = new File(xmlApplicationPath);
 		try{
-
-
 			JAXBContext jaxbContext = 
 					JAXBContext.newInstance("applicationJaxbRes");
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -131,6 +117,59 @@ public class Application {
 		
 		application.setCV(applicationRoot.getCV());
 		application.setMotivationLetter(applicationRoot.getMotivationLetter());
+		resultJaxRes.ApplicationType.Person p = new resultJaxRes.ApplicationType.Person();
+		
+		Person ap = applicationRoot.getPerson();
+		p.setFirstName(ap.getFirstName());
+		p.setId(ap.getId());
+		p.setLastName(ap.getLastName());
+		application.setPerson(p);
+		
+		resultJaxRes.ApplicationType.Requirement.Companies resultComp= 
+				new resultJaxRes.ApplicationType.Requirement.Companies();
+		
+		applicationJaxbRes.Application.Requirement.Companies companies =
+				applicationRoot.getRequirement().getCompanies();
+		//Get companies
+		for(applicationJaxbRes.Application.Requirement.Companies.Company c : companies.getCompany()){
+			resultJaxRes.ApplicationType.Requirement.Companies.Company resultCompany = 
+			new resultJaxRes.ApplicationType.Requirement.Companies.Company();
+			resultCompany.setName(c.getName());
+			resultComp.getCompany().add(resultCompany);
+		}
+		
+		application.setRequirement(new resultJaxRes.ApplicationType.Requirement());
+		application.getRequirement().setCompanies(resultComp);
+
+		resultJaxRes.ApplicationType.Requirement resultReq = application.getRequirement();
+		applicationJaxbRes.Application.Requirement req = applicationRoot.getRequirement();
+		
+		//get field
+		for(applicationJaxbRes.Application.Requirement.Field f: req.getField()){
+			resultJaxRes.ApplicationType.Requirement.Field resultField = 
+					new resultJaxRes.ApplicationType.Requirement.Field();
+			resultField.setName(f.getName());
+			resultReq.getField().add(resultField);
+		}
+		//Get contract
+		for(applicationJaxbRes.Application.Requirement.Contract c : req.getContract()){
+			resultJaxRes.ApplicationType.Requirement.Contract resultContract = 
+					new resultJaxRes.ApplicationType.Requirement.Contract();
+			resultContract.setContractType(c.getContractType());
+			resultReq.getContract().add(resultContract);
+		}
+		//get references
+		
+		for(applicationJaxbRes.Application.Reference r : applicationRoot.getReference()){
+			resultJaxRes.ApplicationType.Reference resultRef = new 
+					resultJaxRes.ApplicationType.Reference();
+			resultRef.setFirstName(r.getFirstName());
+			resultRef.setLastName(r.getLastName());
+			resultRef.setPhone(r.getPhone());
+			application.getReference().add(resultRef);
+		}
+		
+		
 		resultRoot.setApplication(application);
 	}
 
