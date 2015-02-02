@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="result"
+	xmlns="result" elementFormDefault="qualified"
+	>
+	<xs:element name="Profile" type="profileType"/>
+	<xs:complexType name="profileType">
+		<xs:sequence>
+			<xs:element name ="Application" type="applicationType"/>
+			<xs:element name="Degree" type="degreeType"/>
+			<xs:element name="Records" type="recordsType"/>
+			<xs:element name="Companies" type="companiesType"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<!-- Copy pasted from application xsd -->
+	
+	
+	
+    
+        <xs:complexType name = "applicationType">
+            <xs:sequence>
+                <xs:element name = "Person" >
+                    <xs:complexType>
+                        <xs:attribute name ="firstName" type ="xs:string"/>
+                        <xs:attribute name ="lastName" type ="xs:string"/>
+                        <xs:attribute name ="id">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string" >
+                                    <xs:length value="10"/>     
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>          
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name = "Reference" maxOccurs="unbounded" >
+                    <xs:complexType>
+                        <xs:attribute name ="firstName" type ="xs:string" use="required"/>
+                        <xs:attribute name ="lastName" type ="xs:string" use="required"/>
+                        <xs:attribute name ="phone" type ="xs:integer" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name ="CV" type="xs:string"/>
+                <xs:element name ="MotivationLetter" type="xs:string"/>
+                <xs:element name="Requirement">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name = "Companies" >
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Company" maxOccurs="unbounded" >
+                                            <xs:complexType>
+                                                <xs:attribute name ="name" type ="xs:string"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name ="Contract" maxOccurs = "unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name = "contractType" type = "xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name ="Field" maxOccurs = "unbounded">
+                                <xs:complexType>
+                                    <xs:attribute  name = "name" type = "xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>              
+            </xs:sequence>
+        </xs:complexType>
+   
+    
+    <!-- Degree copy pasted. Small edit for GPA-->
+    
+        <xs:complexType name="degreeType">
+            <xs:sequence>
+                <xs:element name="University">
+                    <xs:complexType>
+                        <xs:attribute name="name" type = "xs:string"/>
+                        <xs:attribute name = "address" type = "xs:string"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name = "personalInfo">
+                    <xs:complexType>
+                        <xs:sequence >
+                            <xs:element name="firstName" type= "xs:string" />
+                            <xs:element name="lastName" type="xs:string"/>
+                            <xs:element name="personalNumber" type="xs:integer"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="program">
+                    <xs:complexType>
+                        <xs:sequence>
+                        <xs:element name="course" maxOccurs="unbounded" >
+                                <xs:complexType>
+                                    <xs:attribute name="name" type = "xs:string"/>
+                                    <xs:attribute name="grade">
+                                        <xs:simpleType>
+                                            <xs:restriction base = "xs:string">
+                                                <xs:enumeration value="A"/>
+                                                <xs:enumeration value="B"/>
+                                                <xs:enumeration value="C"/>
+                                                <xs:enumeration value="D"/>
+                                                <xs:enumeration value="E"/>
+                                                <xs:enumeration value="F"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="creditHours" type="xs:double"/>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="gpa" type="xs:string"></xs:element>
+                           </xs:sequence>
+                        <xs:attribute name="name" type = "xs:string"/>
+                    </xs:complexType>
+                </xs:element>
+                
+            </xs:sequence>
+        </xs:complexType>
+
+		<!-- Employment copy pasted here -->
+	
+        <xs:complexType name="recordsType">
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="Person">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded" >
+                            <xs:element name="Work">
+                                <xs:complexType>
+                                    <xs:attribute name = "start" type = "xs:date"/>
+                                    <xs:attribute name = "end" type = "xs:date"/>
+                                    <xs:attribute name = "company" type = "xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="firstName" type ="xs:string"/>
+                        <xs:attribute name="lastName" type ="xs:string"/>
+                        <xs:attribute name="id" type ="xs:integer"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+ 
+	
+	<!-- Company copy pasted below -->
+	
+
+	<xs:complexType name="companiesType">
+		<xs:sequence>
+			<xs:element name="Company" type="companyType" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="companyType">
+		<xs:sequence>
+			<xs:element name="City" type="cityType" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" use="required" type="xs:string"></xs:attribute>
+		<xs:attribute name="founded" use="required" type="xs:gYear"></xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="cityType">
+		<xs:sequence>
+			<xs:element name="Office" maxOccurs="unbounded" type="officeType"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" use="required" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="officeType" mixed="true">
+		<xs:attribute name="streetAddress" use="required" type="xs:string"></xs:attribute>
+		<xs:attribute name="streetNumber" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minExclusive value="0"></xs:minExclusive>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="workers" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"></xs:minInclusive>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+</xs:schema>
