@@ -5,9 +5,7 @@
  */
 package homework.pkg1;
 
-import com.w3schools.Degree;
-import com.w3schools.Degree.Program;
-import com.w3schools.Degree.University;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -19,6 +17,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
+import university.Degree;
+import university.Degree.Program;
+import university.Degree.University;
 
 /**
  * import com.w3schools.Degree; import com.w3schools.ObjectFactory import
@@ -52,8 +53,10 @@ public class Homework1 {
          *
          */
         Homework1 test = new Homework1();
+        ArrayList<JAXBElement> testList = new ArrayList<>();
         try {
-            test.readDegree();
+            testList=test.readDegree();
+            
         } catch (JAXBException | XMLStreamException ex) {
             Logger.getLogger(Homework1.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,7 +64,7 @@ public class Homework1 {
     }
     public ArrayList<JAXBElement> readDegree()    throws JAXBException, XMLStreamException{
         //Opens the file to read from
-        File inFile = new File("src\\homework\\pkg1\\DegreeMall.xml");
+        File inFile = new File("src\\xml\\DegreeMall.xml");
         // makes an instance of the whole XML documentclass
         JAXBContext jc = JAXBContext.newInstance(Degree.class);
 
@@ -78,24 +81,13 @@ public class Homework1 {
         
         QName qNameUniversity = new QName("com.w3schools.Degree", "university");
         JAXBElement<University> universityElement = new JAXBElement<>(qNameUniversity, University.class, university);
+        // puts the elements in a list and return the list
         ArrayList<JAXBElement> returnList = new ArrayList<JAXBElement>();
         returnList.add(universityElement);
         returnList.add(programElement);        
                 
         return returnList;
-        /**
-        // opens/creates the output file and creates the marshaller
-        File outFile = new File("src\\homework\\pkg1\\DegreeOutput.xml");
-        Marshaller marshall = jc.createMarshaller();
-        marshall.setProperty(marshall.JAXB_FORMATTED_OUTPUT, true);
-
-           // Fixing "RootElementAnnotation missing" aka make new Elements containing program and university
-            // because that is what we need from this file
         
-
-        marshall.marshal(universityElement, outFile);
-        marshall.marshal(programElement, outFile);
-        **/
     }
 
 }
