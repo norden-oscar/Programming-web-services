@@ -40,7 +40,7 @@ import resultJaxRes.ApplicationType.Reference;
 import resultJaxRes.Profile;
 import companyJaxRes.Company;
 import companyJaxRes.Office;
-import employmentSaxRes.Person;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import parsing.EmploymentOfficeParser;
@@ -80,7 +80,7 @@ public class Application {
 		//initiateDegreeJAXB()
 		
 		writeResultApplication();
-		//writeResultDegree()
+		writeResultDegree();
 		//writeResultEmployment()
 		//writeResultCompany()
 		writeOutput();
@@ -115,7 +115,14 @@ public class Application {
 		}
 
 	}
-
+	
+	private void writeResultDegree() {
+		resultJaxRes.DegreeType resultDegree = new resultJaxRes.DegreeType();
+		
+		
+	}
+	
+	
 	private void writeResultApplication() {
 		resultJaxRes.ApplicationType application = new resultJaxRes.ApplicationType();
 		
@@ -128,7 +135,7 @@ public class Application {
 		p.setId(ap.getId());
 		p.setLastName(ap.getLastName());
 		application.setPerson(p);
-		
+		personId = ap.getId();
 		resultJaxRes.ApplicationType.Requirement.Companies resultComp= 
 				new resultJaxRes.ApplicationType.Requirement.Companies();
 		
