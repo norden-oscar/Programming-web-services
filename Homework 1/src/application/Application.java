@@ -5,10 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -30,20 +31,14 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
-import applicationJaxbRes.Application.Person;
-import applicationJaxbRes.Application.Requirement.Companies;
-import resultJaxRes.ApplicationType.Reference;
+import parsing.EmploymentOfficeParser;
 import resultJaxRes.Profile;
+import applicationJaxbRes.Application.Person;
+
 import companyJaxRes.Company;
 import companyJaxRes.Office;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import parsing.EmploymentOfficeParser;
 
 
 public class Application {
@@ -60,12 +55,14 @@ public class Application {
 	private final String xmlCompanyPath = "src/xml/company.xml";
 	private final String xsdCompanyPath = "src/xml/company.xsd";
 	private final String xmlApplicationPath ="src/xml/application.xml";
+	private final String xmlDegreePath = "src/xml/DegreeMall.xml";
 	private final String xmlResultPath = "src/out/jaxbResult.xml";
 	
 	//dom for xml file
 	private Document doc;
 	private String personId;
 	private applicationJaxbRes.Application applicationRoot;
+	private degreeJaxRes.Degree degreeRoot;
 	private final Profile resultRoot = new Profile();
 	Marshaller jaxbMarshaller;
 	public static void main(String args []) {
@@ -77,12 +74,12 @@ public class Application {
 		populateCompanyResource();
 		populateEmploymentResource();
 		initiateApplicationJAXB();
-		//initiateDegreeJAXB()
+		initiateDegreeJAXB();
 		
 		writeResultApplication();
 		writeResultDegree();
 		//writeResultEmployment()
-		//writeResultCompany()
+		writeResultCompany();
 		writeOutput();
 	}
 
@@ -106,7 +103,7 @@ public class Application {
 			JAXBContext jaxbContext = 
 					JAXBContext.newInstance("applicationJaxbRes");
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			//Source source = new StreamSource(inputStream);
+			
 			applicationRoot = (applicationJaxbRes.Application) jaxbUnmarshaller.unmarshal(file);
 			
 
@@ -116,10 +113,66 @@ public class Application {
 
 	}
 	
+	private void initiateDegreeJAXB(){
+		File file = new File(xmlDegreePath);
+		try{
+			JAXBContext jaxbContext = 
+					JAXBContext.newInstance("degreeJaxRes");
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			
+			degreeRoot = (degreeJaxRes.Degree) jaxbUnmarshaller.unmarshal(file);
+			
+
+		} catch (JAXBException e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private void writeResultCompany() {
+		
+	}
+	
+	
 	private void writeResultDegree() {
 		resultJaxRes.DegreeType resultDegree = new resultJaxRes.DegreeType();
-		
-		
+		resultDegree.setPersonalInfo(new resultJaxRes.DegreeType.PersonalInfo());
+		resultDegree.getPersonalInfo().setFirstName(degreeRoot.getPersonalInfo().getFirstName());
+		resultDegree.getPersonalInfo().setLastName(degreeRoot.getPersonalInfo().getLastName());
+		resultDegree.getPersonalInfo().setPersonalNumber(degreeRoot.getPersonalInfo().getPersonalNumber());
+		resultDegree.setProgram(new resultJaxRes.DegreeType.Program());
+		resultDegree.getProgram().setName(degreeRoot.getProgram().getName()); //Name of program set
+		resultDegree.setUniversity(new resultJaxRes.DegreeType.University());
+		resultDegree.getUniversity().setAddress(degreeRoot.getUniversity().getAddress());
+		resultDegree.getUniversity().setName(degreeRoot.getUniversity().getName());
+		//For every course
+		double accCreditHours = 0;
+		double accPoints = 0;
+		for(degreeJaxRes.Degree.Program.Course c : degreeRoot.getProgram().getCourse()){
+			resultJaxRes.DegreeType.Program.Course resultCourse =
+					new resultJaxRes.DegreeType.Program.Course();
+			resultCourse.setCreditHours(c.getCreditHours());
+			resultCourse.setGrade(c.getGrade());
+			resultCourse.setName(c.getName());
+			resultDegree.getProgram().getCourse().add(resultCourse);
+			accCreditHours += c.getCreditHours();
+			switch (c.getGrade()) {
+			case "A":
+				accPoints += 4;
+				break;
+			case "B":
+				accPoints += 3;
+				break;
+			case "C": accPoints += 2;
+			break;
+			case "D": accPoints += 1;
+			break;
+			default:
+				break;
+			}
+		}
+		resultDegree.getProgram().setGpa(String.format("%.3f", accPoints / accCreditHours));
+		resultRoot.setDegree(resultDegree);
 	}
 	
 	
@@ -257,7 +310,7 @@ public class Application {
 
     private void populateEmploymentResource() {
         
-        File empOfficeXml = new File("src\\xml\\employmentOffice.xml");
+        File empOfficeXml = new File("src/xml/employmentOffice.xml");
         
         try {
             
@@ -276,7 +329,7 @@ public class Application {
             EmploymentOfficeHandler handler = new EmploymentOfficeHandler();
             saxParser.parse(empOfficeXml, handler);
             
-            ArrayList<Person> personList = handler.getPersonList();
+            ArrayList<employmentSaxRes.Person> personList = handler.getPersonList();
    
             
         } catch (ParserConfigurationException | SAXException | IOException ex) {
