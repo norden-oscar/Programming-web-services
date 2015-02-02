@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +21,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
@@ -70,7 +75,8 @@ public class Application {
 	private final String xmlApplicationPath ="src/xml/application.xml";
 	private final String xmlDegreePath = "src/xml/DegreeMall.xml";
 	private final String xmlResultPath = "src/out/jaxbResult.xml";
-	
+	private employmentSaxRes.Person employmentPerson;
+	private int indexOfEmpPerson;
 	//dom for xml file
 	private Document doc;
 	private String personId;
@@ -85,27 +91,31 @@ public class Application {
 
 	public Application() {
 		populateCompanyResource();
-		populateEmploymentResource();
+	
 		initiateApplicationJAXB();
 		initiateDegreeJAXB();
-		
+
 		writeResultApplication();
+
 		writeResultDegree();
-		//writeResultEmployment()
+		
 		writeResultCompany();
+		populateEmploymentResource();
+		writeResultEmployment();
 		writeOutput();
 	}
 
 	private void writeOutput(){
-		
+
 		try{
 			File file = new File(xmlResultPath);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Profile.class);
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "../xml/result.xsd");
-			jaxbMarshaller.marshal(resultRoot, file);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "result ../xml/result.xsd");
 			
+			jaxbMarshaller.marshal(resultRoot, file);
+
 		} catch(JAXBException e){
 			e.printStackTrace();
 		}
@@ -117,32 +127,32 @@ public class Application {
 			JAXBContext jaxbContext = 
 					JAXBContext.newInstance("applicationJaxbRes");
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			
+
 			applicationRoot = (applicationJaxbRes.Application) jaxbUnmarshaller.unmarshal(file);
-			
+
 
 		} catch (JAXBException e){
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	private void initiateDegreeJAXB(){
 		File file = new File(xmlDegreePath);
 		try{
 			JAXBContext jaxbContext = 
 					JAXBContext.newInstance("degreeJaxRes");
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			
+
 			degreeRoot = (degreeJaxRes.Degree) jaxbUnmarshaller.unmarshal(file);
-			
+
 
 		} catch (JAXBException e){
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	private void writeResultCompany() {
 		resultRoot.setCompanies(new CompaniesType());;
 		for(companyJaxRes.Company c : companyCollection){
@@ -159,7 +169,7 @@ public class Application {
 					resultCompany.setFounded(gYear);
 					resultCompany.setName(ce.getName());
 					resultRoot.getCompanies().getCompany().add(resultCompany);
-					
+
 					for(companyJaxRes.Office o : c.getOfficeList()){
 						resultJaxRes.OfficeType resultOffice = new resultJaxRes.OfficeType();
 						resultOffice.setStreetAddress(o.getStreetAddress());
@@ -170,10 +180,10 @@ public class Application {
 				}
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	private void writeResultDegree() {
 		resultJaxRes.DegreeType resultDegree = new resultJaxRes.DegreeType();
 		resultDegree.setPersonalInfo(new resultJaxRes.DegreeType.PersonalInfo());
@@ -214,15 +224,15 @@ public class Application {
 		resultDegree.getProgram().setGpa(String.format("%.3f", accPoints / accCreditHours));
 		resultRoot.setDegree(resultDegree);
 	}
-	
-	
+
+
 	private void writeResultApplication() {
 		resultJaxRes.ApplicationType application = new resultJaxRes.ApplicationType();
-		
+
 		application.setCV(applicationRoot.getCV());
 		application.setMotivationLetter(applicationRoot.getMotivationLetter());
 		resultJaxRes.ApplicationType.Person p = new resultJaxRes.ApplicationType.Person();
-		
+
 		Person ap = applicationRoot.getPerson();
 		p.setFirstName(ap.getFirstName());
 		p.setId(ap.getId());
@@ -231,23 +241,23 @@ public class Application {
 		personId = ap.getId();
 		resultJaxRes.ApplicationType.Requirement.Companies resultComp= 
 				new resultJaxRes.ApplicationType.Requirement.Companies();
-		
+
 		applicationJaxbRes.Application.Requirement.Companies companies =
 				applicationRoot.getRequirement().getCompanies();
 		//Get companies
 		for(applicationJaxbRes.Application.Requirement.Companies.Company c : companies.getCompany()){
 			resultJaxRes.ApplicationType.Requirement.Companies.Company resultCompany = 
-			new resultJaxRes.ApplicationType.Requirement.Companies.Company();
+					new resultJaxRes.ApplicationType.Requirement.Companies.Company();
 			resultCompany.setName(c.getName());
 			resultComp.getCompany().add(resultCompany);
 		}
-		
+
 		application.setRequirement(new resultJaxRes.ApplicationType.Requirement());
 		application.getRequirement().setCompanies(resultComp);
 
 		resultJaxRes.ApplicationType.Requirement resultReq = application.getRequirement();
 		applicationJaxbRes.Application.Requirement req = applicationRoot.getRequirement();
-		
+
 		//get field
 		for(applicationJaxbRes.Application.Requirement.Field f: req.getField()){
 			resultJaxRes.ApplicationType.Requirement.Field resultField = 
@@ -263,7 +273,7 @@ public class Application {
 			resultReq.getContract().add(resultContract);
 		}
 		//get references
-		
+
 		for(applicationJaxbRes.Application.Reference r : applicationRoot.getReference()){
 			resultJaxRes.ApplicationType.Reference resultRef = new 
 					resultJaxRes.ApplicationType.Reference();
@@ -272,8 +282,8 @@ public class Application {
 			resultRef.setPhone(r.getPhone());
 			application.getReference().add(resultRef);
 		}
-		
-		
+
+
 		resultRoot.setApplication(application);
 	}
 
@@ -320,15 +330,15 @@ public class Application {
 			expr = xPath.compile(expression);
 			NodeList n1= (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for(int i = 0; i< n1.getLength(); i++){
-				
+
 				NamedNodeMap nnm = n1.item(i).getAttributes();
 				companyName = nnm.getNamedItem("name").getNodeValue();
 				founded = nnm.getNamedItem("founded").getNodeValue();
-				
-				
+
+
 				expression = "//Company[@name = '" + companyName + "']/Office";
 				NodeList n2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-				
+
 				ArrayList <Office> officeList = new ArrayList<Office>();
 				for(int j = 0; j<n2.getLength(); j++) {
 					streetAddress = 
@@ -338,13 +348,13 @@ public class Application {
 					workerCount = 
 							n2.item(j).getAttributes().getNamedItem("workers").getNodeValue();
 					officeList.add(new Office(streetAddress, streetNumber, workerCount));
-				
+
 				}
 				companyCollection.add(new Company(companyName, founded, officeList));
-				
+
 			}
 
-			
+
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -352,36 +362,119 @@ public class Application {
 
 	}
 
-    private void populateEmploymentResource() {
-        
-        File empOfficeXml = new File("src/xml/employmentOffice.xml");
-        
-        try {
-            
-            
-            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-            saxParserFactory.setValidating(true);
-            saxParserFactory.setNamespaceAware(true);
-          
-            
-              
-            SAXParser saxParser = saxParserFactory.newSAXParser();
-         
-            saxParser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage", 
-            "http://www.w3.org/2001/XMLSchema");
-            
-            EmploymentOfficeHandler handler = new EmploymentOfficeHandler();
-            saxParser.parse(empOfficeXml, handler);
-            
-            ArrayList<employmentSaxRes.Person> personList = handler.getPersonList();
-   
-            
-        } catch (ParserConfigurationException | SAXException | IOException ex) {
-         
-            Logger.getLogger(EmploymentOfficeParser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	private XMLGregorianCalendar stringToXMLGregorianCalendar(String s){
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS z", Locale.ENGLISH);
+
+		String formattedDate = sdf.format(date);
+
+		return stringToXMLGregorianCalendar(formattedDate, sdf);
+	}
+
+	/**
+	 * Converts Date object into XMLGregorianCalendar
+	 *
+	 * @param date Object to be converted
+	 * @return XMLGregorianCalendar
+	 */
+	private static XMLGregorianCalendar dateToXMLGregorianCalendar(Date date) {
+
+		try {
+			GregorianCalendar gc = (GregorianCalendar) GregorianCalendar.getInstance();
+			gc.setTime(date);
+			return DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+		} catch (DatatypeConfigurationException e) {
+			// TODO: Optimize exception handling
+			System.out.print(e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Converts a formatted string into XMLGregorianCalendar
+	 *
+	 * @param datetime Formatted string
+	 * @param sdf Date format of the given string
+	 * @return XMLGregorianCalendar
+	 */
+	private static XMLGregorianCalendar stringToXMLGregorianCalendar(String datetime, SimpleDateFormat sdf) {
+
+		try {
+			Date date = sdf.parse(datetime);
+			return dateToXMLGregorianCalendar(date);
+		} catch (ParseException e) {
+			// TODO: Optimize exception handling
+			System.out.print(e.getMessage());
+			return null;
+		}
+	}
+
+	private void populateEmploymentResource() {
+
+		File empOfficeXml = new File("src/xml/employmentOffice.xml");
+
+		try {
+
+			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+			saxParserFactory.setValidating(true);
+			saxParserFactory.setNamespaceAware(true);
+
+			SAXParser saxParser = saxParserFactory.newSAXParser();
+
+			saxParser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage",
+					"http://www.w3.org/2001/XMLSchema");
+
+			EmploymentOfficeHandler handler = new EmploymentOfficeHandler();
+			saxParser.parse(empOfficeXml, handler);
+
+			ArrayList<employmentSaxRes.Person> personList = handler.getPersonList();
+
+			for (int i = 0; i < personList.size(); i++) {
+
+				if (personList.get(i).getId().equals(personId)) {
+				
+					employmentPerson = personList.get(i);
+					indexOfEmpPerson = i;
+					break;
+				}
+			}
+
+		} catch (ParserConfigurationException | SAXException | IOException ex) {
+
+			Logger.getLogger(EmploymentOfficeParser.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	private void writeResultEmployment() {
+		resultJaxRes.RecordsType records = new resultJaxRes.RecordsType();
+		resultJaxRes.RecordsType.Person resultPerson = new resultJaxRes.RecordsType.Person();
 
 
+		for (int i = 0; i < employmentPerson.getWorkList().size(); i++) {
+			resultJaxRes.RecordsType.Person.Work resultWork = new resultJaxRes.RecordsType.Person.Work();
+			XMLGregorianCalendar start = null;
+			XMLGregorianCalendar end = null;
+			start = stringToXMLGregorianCalendar(employmentPerson.getWorkList().get(i).getStart());
+			end = stringToXMLGregorianCalendar(employmentPerson.getWorkList().get(i).getEnd());
+
+			resultWork.setCompany(employmentPerson.getWorkList().get(i).getCompany());
+			resultWork.setStart(start);
+			resultWork.setEnd(end);
+			resultPerson.getWork().add(resultWork);
+		}
+
+
+		BigInteger id = new BigInteger(employmentPerson.getId());
+		resultPerson.setId(id);
+		resultPerson.setFirstName(employmentPerson.getFirstName());
+		resultPerson.setLastName(employmentPerson.getLastName());
+		records.getPerson().add(resultPerson);
+
+
+		resultRoot.setRecords(records);
+		
+		
+
+	}
 } 
 

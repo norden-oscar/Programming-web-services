@@ -55,32 +55,27 @@
 			<Work start="2001-02-04" end="2003-07-02" company="Ericsson" />
 		</Person>
 
+
 	</Records>
 	<Companies>
-
 		<Company name="Ericsson" founded="1877">
-			<City name="Stockholm">
-				<Office streetAddress="Kistavägen" streetNumber="22" workers="5">
+			<Office streetAddress="Kistavägen" streetNumber="22" workers="5">
 
-				</Office>
-				<Office streetAddress="Drottninggatan" streetNumber="33"
-					workers="45">
+			</Office>
+			<Office streetAddress="Drottninggatan" streetNumber="33"
+				workers="45">
 
-				</Office>
-			</City>
+			</Office>
+
 		</Company>
-		<Company name="McDonalds" founded="1877">
-			<City name="Lund">
-				<Office streetAddress="Storgatan" streetNumber="33" workers="32">
+		<Company name="McDonalds" founded="1899">
+			<Office streetAddress="Storgatan" streetNumber="33" workers="32">
 
-				</Office>
-			</City>
-			<City name="Stockholm">
-				<Office streetAddress="Regeringsgatan" streetNumber="322"
-					workers="65">
+			</Office>
+			<Office streetAddress="Regeringsgatan" streetNumber="322"
+				workers="65">
 
-				</Office>
-			</City>
+			</Office>
 		</Company>
 
 	</Companies>

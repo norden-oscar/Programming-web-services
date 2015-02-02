@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     "records",
     "companies"
 })
-@XmlRootElement
+@XmlRootElement(name="Profile")
 public class Profile {
 
     @XmlElement(name = "Application", required = true)

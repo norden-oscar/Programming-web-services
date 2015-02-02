@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<profile xmlns="result" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="../xml/result.xsd">
+<Profile xmlns="result" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="result ../xml/result.xsd">
 	<Application>
 		<Person firstName="Oscar" lastName="Nordén" id="8906061234" />
 		<Reference firstName="Stefan" lastName="Josefsson" phone="70123456" />
 		<Reference firstName="Erik" lastName="Svensson" phone="704343434" />
 		<CV>
-			This is an outstanding CV
-		</CV>
+        This is an outstanding CV
+    </CV>
 		<MotivationLetter>
-			I'm a nice person. Hence you should hire me.
-		</MotivationLetter>
+        I'm a nice person. Hence you should hire me.
+    </MotivationLetter>
 		<Requirement>
 			<Companies>
 				<Company name="McDonalds" />
@@ -43,6 +43,12 @@
 			<gpa>2,973</gpa>
 		</program>
 	</Degree>
+	<Records>
+		<Person firstName="Oscar" lastName="Nordén" id="8906061234">
+			<Work start="2015-02-02+01:00" end="2015-02-02+01:00" company="McDonalds" />
+			<Work start="2015-02-02+01:00" end="2015-02-02+01:00" company="Ericsson" />
+		</Person>
+	</Records>
 	<Companies>
 		<Company name="Ericsson" founded="1877">
 			<Office streetAddress="Kistavägen" streetNumber="22" workers="5" />
@@ -55,4 +61,4 @@
 				workers="65" />
 		</Company>
 	</Companies>
-</profile>
+</Profile>
