@@ -1,11 +1,17 @@
 package application;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,12 +32,22 @@ import javax.xml.xpath.XPathFactory;
 
 
 
+
+
+
+
+
+
+
+
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import resultJaxRes.ProfileType;
 import companyJaxRes.Company;
 import companyJaxRes.Office;
 
@@ -46,28 +62,76 @@ public class Application {
 	//reference to root of jaxb 
 	//reference to root of jaxb
 	//reference to root of jaxb
+
+	private final String xmlCompanyPath = "src/xml/company.xml";
+	private final String xsdCompanyPath = "src/xml/company.xsd";
+	private final String xmlApplicationPath ="src/xml/application.xml";
+	private final String xmlResultPath = "src/out/jaxbResult.xml";
 	
-	private final String xmlCompanyPath = "src/homework/pkg1/company.xml";
-	private final String xsdCompanyPath = "src/homework/pkg1/company.xsd";
 	//dom for xml file
 	private Document doc;
-
+	private String personId;
+	private applicationJaxbRes.Application applicationRoot;
+	private final ProfileType resultRoot = new ProfileType();
+	Marshaller jaxbMarshaller;
 	public static void main(String args []) {
 		new Application();
 
 	}
-	
+
 	public Application() {
 		populateCompanyResource();
 		//populateEmploymentResource();
-		//initiateApplicationJAXB()
+		initiateApplicationJAXB();
 		//initiateDegreeJAXB()
-		//initiateResultJAXB()
-		//writeResultApplication()
+		
+		writeResultApplication();
 		//writeResultDegree()
 		//writeResultEmployment()
 		//writeResultCompany()
+		writeOutput();
+	}
+
+	private void writeOutput(){
 		
+		try{
+
+
+			File file = new File(xmlResultPath);
+			JAXBContext jaxbContext = JAXBContext.newInstance(ProfileType.class);
+			jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(resultRoot, file);
+			
+		} catch(JAXBException e){
+			e.printStackTrace();
+		}
+	}
+
+	private void initiateApplicationJAXB() {
+		File file = new File(xmlApplicationPath);
+		try{
+
+
+			JAXBContext jaxbContext = 
+					JAXBContext.newInstance("applicationJaxbRes");
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			//Source source = new StreamSource(inputStream);
+			applicationRoot = (applicationJaxbRes.Application) jaxbUnmarshaller.unmarshal(file);
+			
+
+		} catch (JAXBException e){
+			e.printStackTrace();
+		}
+
+	}
+
+	private void writeResultApplication() {
+		resultJaxRes.ApplicationType application = new resultJaxRes.ApplicationType();
+		
+		application.setCV(applicationRoot.getCV());
+		application.setMotivationLetter(applicationRoot.getMotivationLetter());
+		resultRoot.setApplication(application);
 	}
 
 	private void populateCompanyResource(){
