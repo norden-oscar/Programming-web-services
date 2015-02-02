@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Companies xmlns="company" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="company company.xsd">
-	
 	<Company name="Ericsson" founded="1877">
-		<City name="Stockholm">
 			<Office streetAddress="Kistavägen" streetNumber="22" workers="5">
 				<Reports>
 					<Report type="financial" year="1999">
@@ -38,10 +36,9 @@
 					</Report>
 				</Reports>
 			</Office>
-		</City>
+		
 	</Company>
-	<Company name="McDonalds" founded="1877">
-		<City name="Lund">
+	<Company name="McDonalds" founded="1899">		
 			<Office streetAddress="Storgatan" streetNumber="33" workers="32">
 			<Reports>
 					<Report type="financial" year="1992">
@@ -59,9 +56,7 @@
 						We expect a decrease in sale
 					</Report>
 				</Reports>
-			</Office>
-		</City>
-		<City name="Stockholm">
+			</Office>	
 			<Office streetAddress="Regeringsgatan" streetNumber="322" workers="65">
 				<Reports>
 					<Report type="financial" year="1996">
@@ -79,11 +74,9 @@
 							We expect a decrease in sale
 						</Report>
 					</Reports>
-			</Office>
-		</City>
+			</Office>	
 	</Company>
 	<Company name="Max" founded="1958">
-		<City name="Malmö">
 			<Office streetAddress="Adelsgatan" streetNumber="4" workers="11">
 				<Reports>
 					<Report type="financial" year="1995">
@@ -101,7 +94,6 @@
 						We expect a decrease in sale
 					</Report>
 				</Reports>
-			</Office>
-		</City>
+			</Office>		
 	</Company>
 </Companies>

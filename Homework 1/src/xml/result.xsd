@@ -157,17 +157,10 @@
 
 	<xs:complexType name="companyType">
 		<xs:sequence>
-			<xs:element name="City" type="cityType" maxOccurs="unbounded" />
+			<xs:element name="Office" maxOccurs="unbounded" type="officeType"></xs:element>
 		</xs:sequence>
 		<xs:attribute name="name" use="required" type="xs:string"></xs:attribute>
 		<xs:attribute name="founded" use="required" type="xs:gYear"></xs:attribute>
-	</xs:complexType>
-
-	<xs:complexType name="cityType">
-		<xs:sequence>
-			<xs:element name="Office" maxOccurs="unbounded" type="officeType"></xs:element>
-		</xs:sequence>
-		<xs:attribute name="name" use="required" type="xs:string" />
 	</xs:complexType>
 
 	<xs:complexType name="officeType" mixed="true">

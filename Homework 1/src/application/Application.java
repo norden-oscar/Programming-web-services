@@ -3,8 +3,13 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +18,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,13 +39,17 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.DateDV;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+
 import parsing.EmploymentOfficeParser;
+import resultJaxRes.CompaniesType;
 import resultJaxRes.Profile;
 import applicationJaxbRes.Application.Person;
-
 import companyJaxRes.Company;
 import companyJaxRes.Office;
 
@@ -130,6 +143,32 @@ public class Application {
 	
 	
 	private void writeResultCompany() {
+		resultRoot.setCompanies(new CompaniesType());;
+		for(companyJaxRes.Company c : companyCollection){
+			for( resultJaxRes.ApplicationType.Requirement.Companies.Company ce :
+				resultRoot.getApplication().getRequirement().getCompanies().getCompany()){
+				//We have a match
+				if(ce.getName().equals(c.getName())){
+					String year = c.getFounded();
+					resultJaxRes.CompanyType resultCompany = new resultJaxRes.CompanyType();
+					XMLGregorianCalendar gYear = 
+							XMLGregorianCalendarImpl.createDate(Integer.parseInt(year), 
+									DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED, 
+									DatatypeConstants.FIELD_UNDEFINED);
+					resultCompany.setFounded(gYear);
+					resultCompany.setName(ce.getName());
+					resultRoot.getCompanies().getCompany().add(resultCompany);
+					
+					for(companyJaxRes.Office o : c.getOfficeList()){
+						resultJaxRes.OfficeType resultOffice = new resultJaxRes.OfficeType();
+						resultOffice.setStreetAddress(o.getStreetAddress());
+						resultOffice.setStreetNumber(new BigInteger(o.getStreetNumber()));
+						resultOffice.setWorkers(new BigInteger(o.getWorkerCount()));
+						resultCompany.getOffice().add(resultOffice);
+					}
+				}
+			}
+		}
 		
 	}
 	
@@ -268,7 +307,7 @@ public class Application {
 		}
 
 		String companyName;
-		String city;
+		String founded;
 		String streetAddress;
 		String streetNumber;
 		String workerCount;
@@ -276,17 +315,19 @@ public class Application {
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			XPathExpression expr;
-			String expression = "//Company/@name";
+			String expression = "//Company";
 			expr = xPath.compile(expression);
 			NodeList n1= (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for(int i = 0; i< n1.getLength(); i++){
-				companyName = n1.item(i).getNodeValue();
-				expression = "//Company[@name = '" + companyName + "']/City/@name";
-				city = xPath.compile(expression).evaluate(doc);
-
-				expression = "//Company[@name = '" + companyName + "']/City/Office";
+				
+				NamedNodeMap nnm = n1.item(i).getAttributes();
+				companyName = nnm.getNamedItem("name").getNodeValue();
+				founded = nnm.getNamedItem("founded").getNodeValue();
+				
+				
+				expression = "//Company[@name = '" + companyName + "']/Office";
 				NodeList n2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-
+				
 				ArrayList <Office> officeList = new ArrayList<Office>();
 				for(int j = 0; j<n2.getLength(); j++) {
 					streetAddress = 
@@ -296,11 +337,13 @@ public class Application {
 					workerCount = 
 							n2.item(j).getAttributes().getNamedItem("workers").getNodeValue();
 					officeList.add(new Office(streetAddress, streetNumber, workerCount));
+				
 				}
-				companyCollection.add(new Company(companyName, officeList));
+				companyCollection.add(new Company(companyName, founded, officeList));
+				
 			}
 
-
+			
 		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
