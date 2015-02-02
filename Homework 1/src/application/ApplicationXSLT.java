@@ -1,4 +1,4 @@
-package parsing;
+package application;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import javax.xml.transform.stream.StreamSource;
 
 public class ApplicationXSLT {
 	
-	private final String xmlPath = "src/parsing/test3.xml";
-	private final String xslPath ="src/parsing/userProfile.xsl";
-	private final String outPath ="src/parsing/out.xsl";
+	private final String xmlPath = "src/xml/application.xml";
+	private final String xslPath ="src/xml/userProfile.xsl";
+	private final String outPath ="src/out/result.xml";
 	public static void main(String args []) {
 		new ApplicationXSLT();
 	}

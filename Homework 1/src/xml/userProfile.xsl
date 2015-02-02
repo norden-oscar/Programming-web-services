@@ -21,21 +21,19 @@
 
 
 	<xsl:variable name="company"
-		select="document('../homework/pkg1/company.xml')" />
+		select="document('company.xml')" />
 	<xsl:variable name="degree"
-		select="document('../homework/pkg1/DegreeMall.xml')" />
+		select="document('DegreeMall.xml')" />
 	<xsl:variable name="employmentOffice"
-		select="document('../homework/pkg1/employmentOffice.xml')" />
+		select="document('employmentOffice.xml')" />
 	<xsl:variable name="application"
-		select="document('../homework/pkg1/application.xml')" />
-	<xsl:variable name="test" select="document('test2.xml')" />
+		select="document('application.xml')" />
 	<xsl:variable name="vMap" select="document('')/*/my:map/*/*" />
 
-
-
+	
 	<xsl:template match="/">
 		<Profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="result result.xsd" xmlns="result">
+			xsi:schemaLocation="result ../xml/result.xsd" xmlns="result">
 
 
 			<xsl:apply-templates select="$application/child::node()" />
@@ -85,7 +83,7 @@
 		</xsl:choose>
 
 	</xsl:template>
-
+	
 	<xsl:template match="comp:Company">
 		<xsl:choose>
 
@@ -119,6 +117,7 @@
             <xsl:value-of select="." />
         </xsl:attribute>
 	</xsl:template>
+
 
 	<!-- template to copy the rest of the nodes -->
 	<xsl:template match="comment() | text() | processing-instruction()">

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="result"
 	xmlns="result" elementFormDefault="qualified"
-	xmlns:uni="http://www.globaluni.com"
-	xmlns:cmp="company"
-	xmlns:emp="employment"
-	xmlns:app="application"
-	
 	>
 	<xs:element name="Profile" type="profileType"/>
 	<xs:complexType name="profileType">
