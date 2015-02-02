@@ -103,6 +103,7 @@ public class Application {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Profile.class);
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "../xml/result.xsd");
 			jaxbMarshaller.marshal(resultRoot, file);
 			
 		} catch(JAXBException e){
