@@ -5,25 +5,24 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-
-<Degree xmlns="http://www.w3schools.com"
+<Degree xmlns="university"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.w3schools.com DegreeSchema.xsd">
-    <University  name="Derp University" address="Derproad 22"></University>
+        xsi:schemaLocation="university DegreeSchema.xsd">
+    <University name="Derp University" address="Derproad 22"></University>
     <personalInfo>
-        <firstName>Jon</firstName>
-        <lastName>Smith</lastName>
-        <personalNumber>8904282436</personalNumber>
+        <firstName>Oscar</firstName>
+        <lastName>Nordén</lastName>
+        <personalNumber>8906061234</personalNumber>
     </personalInfo>
     <program name="Information and communication">
-        <course name="java1" grade="A"></course>
-        <course name="java2" grade="B"></course>
-        <course name="neworking basics" grade="D"></course>
-        <course name="networking advanced" grade="E"/>
-        <course name="object oriented programming" grade="E"></course>
-        <course name="Digital design" grade="E"></course>
-        <course name="Distributed systems" grade="C"></course>
-        <course name="Human computer interaction" grade="D" ></course>
+        <course name="java1" grade="A" creditHours="0.5"></course>
+        <course name="java2" grade="B" creditHours="0.8"></course>
+        <course name="neworking basics" grade="D" creditHours="0.2"></course>
+        <course name="networking advanced" grade="E" creditHours="0.3"/>
+        <course name="object oriented programming" grade="E" creditHours="0.8"></course>
+        <course name="Digital design" grade="E" creditHours="0.5"></course>
+        <course name="Distributed systems" grade="C" creditHours="0.4"></course>
+        <course name="Human computer interaction" grade="D" creditHours="0.2"></course>
     </program>
     
 </Degree>

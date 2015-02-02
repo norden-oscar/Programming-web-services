@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Application xmlns="http://www.w3schools.com"
+<Application xmlns="application"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://www.w3schools.com applicationSchema.xsd"> 
+             xsi:schemaLocation="application applicationSchema.xsd"> 
 
     <Person firstName="Oscar" lastName="Nordén" id="8906061234" />
     <Reference firstName="Stefan" lastName="Josefsson" phone="070123456"/>

@@ -7,8 +7,12 @@ and open the template in the editor.
 
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://www.w3schools.com"
-           elementFormDefault="qualified">
+           targetNamespace="application"
+           elementFormDefault="qualified"
+           xmlns="application"
+           >
+           
+
     <xs:element name ="Application">
         <xs:complexType>
             <xs:sequence>

@@ -6,7 +6,7 @@ import java.util.List;
 public class Company {
 
 	private String name;
-
+	
 	private ArrayList<Office> officeList;
 	public Company(String name, ArrayList<Office> officeList) {
 	

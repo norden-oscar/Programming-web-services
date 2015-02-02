@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><Profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="result" xsi:schemaLocation="result result.xsd">
+<Application> 
+
+    <Person firstName="Oscar" lastName="Nordén" id="8906061234"/>
+    <Reference firstName="Stefan" lastName="Josefsson" phone="070123456"/>
+    <Reference firstName="Erik" lastName="Svensson" phone="0704343434"/>
+    <CV>
+        This is an outstanding CV
+    </CV>
+    <MotivationLetter>
+        I'm a nice person. Hence you should hire me.
+    </MotivationLetter>
+    <Requirement>
+        <Companies>
+            <Company name="McDonalds"/>
+            <Company name="Ericsson"/>
+            
+        </Companies>
+        <Contract contractType="Part time"/>
+        <Contract contractType="Full time"/>
+        <Field name="it"/>
+        <Field name="Economy"/>
+    </Requirement>	
+</Application>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<Degree>
+    <University name="Derp University" address="Derproad 22"/>
+    <personalInfo>
+        <firstName>Oscar</firstName>
+        <lastName>Nordén</lastName>
+        <personalNumber>8906061234</personalNumber>
+    </personalInfo>
+    <program name="Information and communication">
+        <course name="java1" grade="A" creditHours="0.5"/>
+        <course name="java2" grade="B" creditHours="0.8"/>
+        <course name="neworking basics" grade="D" creditHours="0.2"/>
+        <course name="networking advanced" grade="E" creditHours="0.3"/>
+        <course name="object oriented programming" grade="E" creditHours="0.8"/>
+        <course name="Digital design" grade="E" creditHours="0.5"/>
+        <course name="Distributed systems" grade="C" creditHours="0.4"/>
+        <course name="Human computer interaction" grade="D" creditHours="0.2"/>
+    <gpa>2.973</gpa>
+</program>
+    
+</Degree>
+<Records>
+	<Person firstName="Oscar" lastName="Nordén" id="8906061234">
+		<Work start="1999-02-04" end="2001-03-02" company="McDonalds"/>
+		<Work start="2001-02-04" end="2003-07-02" company="Ericsson"/>
+	</Person>
+	
+</Records>
+<Companies>
+	
+	<Company name="Ericsson" founded="1877">
+		<City name="Stockholm">
+			<Office streetAddress="Kistavägen" streetNumber="22" workers="5">
+				
+			</Office>
+			<Office streetAddress="Drottninggatan" streetNumber="33" workers="45">
+				
+			</Office>
+		</City>
+	</Company>
+	<Company name="McDonalds" founded="1877">
+		<City name="Lund">
+			<Office streetAddress="Storgatan" streetNumber="33" workers="32">
+			
+			</Office>
+		</City>
+		<City name="Stockholm">
+			<Office streetAddress="Regeringsgatan" streetNumber="322" workers="65">
+				
+			</Office>
+		</City>
+	</Company>
+	
+</Companies>
+</Profile>

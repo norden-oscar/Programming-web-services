@@ -7,8 +7,10 @@ and open the template in the editor.
 
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://www.w3schools.com"
-           elementFormDefault="qualified">
+           targetNamespace="employment"
+           elementFormDefault="qualified"
+           xmlns="employment"
+           >
     <xs:element name="Records">
         <xs:complexType>
             <xs:sequence minOccurs="1" maxOccurs="unbounded">

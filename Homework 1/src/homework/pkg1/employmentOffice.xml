@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Records    xmlns="http://www.w3schools.com"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://www.w3schools.com EmploymentOfficeSchema.xsd">
-    <Person firstName="Oscar" lastName="Nordén" id="8989061234">
-        <Work start="1999-02-04" end="2001-03-02" company="McDonalds" />
-        <Work start="2001-02-04" end="2003-07-02" company="Ericsson" />
-    </Person>
-    <Person firstName="Stefan" lastName="Josefsson" id="8989061234">
-        <Work start="1996-02-04" end="1998-05-07" company="McDonalds" />
-        <Work start="2003-02-04" end="2006-07-12" company="Ericsson" />
-    </Person>
+<Records xmlns="employment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="employment EmploymentOfficeSchema.xsd">
+	<Person firstName="Oscar" lastName="Nordén" id="8906061234">
+		<Work start="1999-02-04" end="2001-03-02" company="McDonalds" />
+		<Work start="2001-02-04" end="2003-07-02" company="Ericsson" />
+	</Person>
+	<Person firstName="Stefan" lastName="Josefsson" id="8201043444">
+		<Work start="1996-02-04" end="1998-05-07" company="McDonalds" />
+		<Work start="2003-02-04" end="2006-07-12" company="Ericsson" />
+	</Person>
 </Records>

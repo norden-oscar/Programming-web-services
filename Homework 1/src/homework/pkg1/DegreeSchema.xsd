@@ -7,8 +7,10 @@ and open the template in the editor.
 
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://www.w3schools.com"
-           elementFormDefault="qualified">
+           targetNamespace="university"
+           elementFormDefault="qualified"
+           xmlns="university"
+           >
 
     <xs:element name="Degree">
         <xs:complexType>
@@ -46,8 +48,10 @@ and open the template in the editor.
                                             </xs:restriction>
                                         </xs:simpleType>
                                     </xs:attribute>
+                                    <xs:attribute name="creditHours" type="xs:double"/>
                                 </xs:complexType>
                             </xs:element>
+<!--                             <xs:element name="gpa" type ="xs:double"/> Added this -->
                            </xs:sequence>
                         <xs:attribute name="name" type = "xs:string"/>
                     </xs:complexType>
@@ -56,4 +60,5 @@ and open the template in the editor.
         </xs:complexType>
     </xs:element>
                 
+	
 </xs:schema>
