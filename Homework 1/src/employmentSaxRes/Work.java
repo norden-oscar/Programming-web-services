@@ -14,7 +14,7 @@ public class Work {
     private String end;
     private String company;
 
-    Work(String start, String end, String company){
+    public Work(String start, String end, String company){
         this.start = start;
         this.end = end;
         this.company = company;

@@ -40,6 +40,10 @@ import resultJaxRes.ApplicationType.Reference;
 import resultJaxRes.Profile;
 import companyJaxRes.Company;
 import companyJaxRes.Office;
+import employmentSaxRes.Person;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import parsing.EmploymentOfficeParser;
 
 
 public class Application {
@@ -71,7 +75,7 @@ public class Application {
 
 	public Application() {
 		populateCompanyResource();
-		//populateEmploymentResource();
+		populateEmploymentResource();
 		initiateApplicationJAXB();
 		//initiateDegreeJAXB()
 		
@@ -243,6 +247,36 @@ public class Application {
 		}
 
 	}
+
+    private void populateEmploymentResource() {
+        
+        File empOfficeXml = new File("src\\xml\\employmentOffice.xml");
+        
+        try {
+            
+            
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            saxParserFactory.setValidating(true);
+            saxParserFactory.setNamespaceAware(true);
+          
+            
+              
+            SAXParser saxParser = saxParserFactory.newSAXParser();
+         
+            saxParser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage", 
+            "http://www.w3.org/2001/XMLSchema");
+            
+            EmploymentOfficeHandler handler = new EmploymentOfficeHandler();
+            saxParser.parse(empOfficeXml, handler);
+            
+            ArrayList<Person> personList = handler.getPersonList();
+   
+            
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+         
+            Logger.getLogger(EmploymentOfficeParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 
 } 

@@ -3,10 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package parsing;
+package application;
 
+import employmentSaxRes.Person;
+import employmentSaxRes.Work;
 import java.util.ArrayList;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
@@ -73,10 +77,31 @@ public class EmploymentOfficeHandler extends DefaultHandler {
                 
             
         }
+    @Override
+     public void warning(SAXParseException e) throws SAXException {
+    System.out.println(e.getMessage());
+    throw (e);
+  }
+
+    @Override
+  public void error(SAXParseException e) throws SAXException {
+    System.out.println(e.getMessage());
+    throw (e);
+  }
+
+    @Override
+  public void fatalError(SAXParseException e) throws SAXException {
+    
+      System.out.println(e.getMessage());
+    throw (e);
+  }
+
+  
+}
     
    /** @Override
     public void characters(char ch[],int start,int lenght){
        
     }
       **/      
-}
+

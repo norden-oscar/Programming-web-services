@@ -26,5 +26,19 @@
         <copy todir="${build.generated.sources.dir}/jaxb">
             <fileset dir="build/generated/jaxbCache/Degree"/>
         </copy>
+        <mkdir dir="build/generated/jaxbCache/Result"/>
+        <xjc destdir="build/generated/jaxbCache/Result" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="xml-resources/jaxb/Result/result.xsd"/>
+            <depends file="xml-resources/jaxb/Result/result.xsd"/>
+            <produces dir="build/generated/jaxbCache/Result"/>
+        </xjc>
+        <copy todir="${build.generated.sources.dir}/jaxb">
+            <fileset dir="build/generated/jaxbCache/Result"/>
+        </copy>
     </target>
 </project>
