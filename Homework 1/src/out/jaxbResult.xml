@@ -1,64 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Profile xmlns="result" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="result ../xml/result.xsd">
-	<Application>
-		<Person firstName="Oscar" lastName="Nordén" id="8906061234" />
-		<Reference firstName="Stefan" lastName="Josefsson" phone="70123456" />
-		<Reference firstName="Erik" lastName="Svensson" phone="704343434" />
-		<CV>
+<Profile xmlns="result" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="result ../xml/result.xsd">
+    <Application>
+        <Person firstName="Oscar" lastName="Nordén" id="8906061234"/>
+        <Reference firstName="Stefan" lastName="Josefsson" phone="70123456"/>
+        <Reference firstName="Erik" lastName="Svensson" phone="704343434"/>
+        <CV>
         This is an outstanding CV
     </CV>
-		<MotivationLetter>
+        <MotivationLetter>
         I'm a nice person. Hence you should hire me.
     </MotivationLetter>
-		<Requirement>
-			<Companies>
-				<Company name="McDonalds" />
-				<Company name="Ericsson" />
-			</Companies>
-			<Contract contractType="Part time" />
-			<Contract contractType="Full time" />
-			<Field name="it" />
-			<Field name="Economy" />
-		</Requirement>
-	</Application>
-	<Degree>
-		<University name="Derp University" address="Derproad 22" />
-		<personalInfo>
-			<firstName>Oscar</firstName>
-			<lastName>Nordén</lastName>
-			<personalNumber>8906061234</personalNumber>
-		</personalInfo>
-		<program name="Information and communication">
-			<course name="java1" grade="A" creditHours="0.5" />
-			<course name="java2" grade="B" creditHours="0.8" />
-			<course name="neworking basics" grade="D" creditHours="0.2" />
-			<course name="networking advanced" grade="E" creditHours="0.3" />
-			<course name="object oriented programming" grade="E"
-				creditHours="0.8" />
-			<course name="Digital design" grade="E" creditHours="0.5" />
-			<course name="Distributed systems" grade="C" creditHours="0.4" />
-			<course name="Human computer interaction" grade="D"
-				creditHours="0.2" />
-			<gpa>2,973</gpa>
-		</program>
-	</Degree>
-	<Records>
-		<Person firstName="Oscar" lastName="Nordén" id="8906061234">
-			<Work start="2015-02-02+01:00" end="2015-02-02+01:00" company="McDonalds" />
-			<Work start="2015-02-02+01:00" end="2015-02-02+01:00" company="Ericsson" />
-		</Person>
-	</Records>
-	<Companies>
-		<Company name="Ericsson" founded="1877">
-			<Office streetAddress="Kistavägen" streetNumber="22" workers="5" />
-			<Office streetAddress="Drottninggatan" streetNumber="33"
-				workers="45" />
-		</Company>
-		<Company name="McDonalds" founded="1899">
-			<Office streetAddress="Storgatan" streetNumber="33" workers="32" />
-			<Office streetAddress="Regeringsgatan" streetNumber="322"
-				workers="65" />
-		</Company>
-	</Companies>
+        <Requirement>
+            <Companies>
+                <Company name="McDonalds"/>
+                <Company name="Ericsson"/>
+            </Companies>
+            <Contract contractType="Part time"/>
+            <Contract contractType="Full time"/>
+            <Field name="it"/>
+            <Field name="Economy"/>
+        </Requirement>
+    </Application>
+    <Degree>
+        <University name="Derp University" address="Derproad 22"/>
+        <personalInfo>
+            <firstName>Oscar</firstName>
+            <lastName>Nordén</lastName>
+            <personalNumber>8906061234</personalNumber>
+        </personalInfo>
+        <program name="Information and communication">
+            <course name="java1" grade="A" creditHours="0.5"/>
+            <course name="java2" grade="B" creditHours="0.8"/>
+            <course name="neworking basics" grade="D" creditHours="0.2"/>
+            <course name="networking advanced" grade="E" creditHours="0.3"/>
+            <course name="object oriented programming" grade="E" creditHours="0.8"/>
+            <course name="Digital design" grade="E" creditHours="0.5"/>
+            <course name="Distributed systems" grade="C" creditHours="0.4"/>
+            <course name="Human computer interaction" grade="D" creditHours="0.2"/>
+            <gpa>2,973</gpa>
+        </program>
+    </Degree>
+    <Records>
+        <Person firstName="Oscar" lastName="Nordén" id="8906061234">
+            <Work start="2015-02-03+01:00" end="2015-02-03+01:00" company="McDonalds"/>
+            <Work start="2015-02-03+01:00" end="2015-02-03+01:00" company="Ericsson"/>
+        </Person>
+    </Records>
+    <Companies>
+        <Company name="Ericsson" founded="1877">
+            <Office streetAddress="Kistavägen" streetNumber="22" workers="5"/>
+            <Office streetAddress="Drottninggatan" streetNumber="33" workers="45"/>
+        </Company>
+        <Company name="McDonalds" founded="1899">
+            <Office streetAddress="Storgatan" streetNumber="33" workers="32"/>
+            <Office streetAddress="Regeringsgatan" streetNumber="322" workers="65"/>
+        </Company>
+    </Companies>
 </Profile>
